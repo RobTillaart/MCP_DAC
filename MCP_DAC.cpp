@@ -89,7 +89,7 @@ void MCP_DAC::fastWriteB(uint16_t value)
 }
 
 
-void MCP_DAC::setPercentage(float perc, uint8_t channel = 0)
+void MCP_DAC::setPercentage(float perc, uint8_t channel)
 {
   if (perc < 0) perc = 0;
   if (perc > 100) perc = 100;
@@ -99,7 +99,7 @@ void MCP_DAC::setPercentage(float perc, uint8_t channel = 0)
 
 float MCP_DAC::getPercentage(uint8_t channel)
 {
-  return (_values[channel] * 100.0) / _maxValue;
+  return (_value[channel] * 100.0) / _maxValue;
 }
 
 
