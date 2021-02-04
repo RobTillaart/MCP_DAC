@@ -40,7 +40,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
   fprintf(stderr, "VERSION: %s\n", MCP_DAC_LIB_VERSION);
-  MCP4921 MCP();
+  MCP4921 MCP;
 
   fprintf(stderr, "test default values\n");
   assertEqual(4095, MCP.maxValue());
