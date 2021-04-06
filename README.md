@@ -88,7 +88,7 @@ To be used only if one needs a specific speed.
 ### LDAC
 
 - **void setLatchPin(uint8_t latchPin)** defines the latchPin, this is optional. The latchPin is used for simultaneous setting a value in multiple devices. Note the latchPin must be the same for all instances that need to be triggered together.
-- **triggerLatchPin()** toggles the defined latchPin, and all devices that are connected to it.
+- **triggerLatch()** toggles the defined latchPin, and all devices that are connected to it.
 
 
 ### Buffered 
