@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.0"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.1"))
 
 
 ///////////////////////////////////////////////////////////////
@@ -27,9 +27,9 @@ public:
   // if only select is given ==> HW SPI
   void     begin(uint8_t select);
 
-  
   //       0 or 1
   uint8_t  channels() { return _channels; };
+  //       255 (8 bit) or 1023 (10 bit) or 4095 (12 bit)
   uint16_t maxValue() { return _maxValue; };
 
   //       gain = 1 or 2
@@ -63,12 +63,16 @@ public:
   void     setBufferedMode(bool mode) { _buffered = mode; };
   bool     getBufferedMode()          { return _buffered; };
 
+  // debugging
+  void     reset();
+  bool     usesHWSPI() { return _hwSPI; };
+
 
 protected:
   uint8_t  _dataOut;
   uint8_t  _clock;
   uint8_t  _select;
-  uint8_t  _latchPin = 255;;
+  uint8_t  _latchPin = 255;
   bool     _hwSPI;
   uint32_t _SPIspeed = 16000000;
 

@@ -1,12 +1,14 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.1.1
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
 //
-
+//  HISTORY
+//  0.1.0   2021-02-03  initial version
+//  0.1.1   2021-05-26  moved SPI.begin() from constructor to begin()
 
 #include "MCP_DAC.h"
 
@@ -23,13 +25,15 @@ MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock)
     digitalWrite(_dataOut, LOW);
     digitalWrite(_clock,   LOW);
   }
-  else
-  {
-    SPI.begin();
-  }
   _channels = 1;
   _maxValue = 255;
   _select   = 0;
+  reset();
+}
+
+
+void MCP_DAC::reset()
+{
   _gain     = 1;
   _value[0] = 0;
   _value[1] = 0;
@@ -43,6 +47,10 @@ void MCP_DAC::begin(uint8_t select)
   _select = select;
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
+  if (_hwSPI)
+  {
+    SPI.begin();
+  }
 }
 
 
