@@ -54,7 +54,7 @@ which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 - **uint8_t getGain()** returns gain set, default 1.
 
 The analog output cannot go beyond the supply voltage. 
-So if Vref is connected to 5V, gain will not make 10 of it.
+So if Vref is connected to 5V, gain=2 will not output 10 Volts.
 
 
 ### Write
@@ -74,7 +74,7 @@ Code for the other MCP4xxx can be written in same way.
 ### Shutdown
 
 - **void shutDown()** shuts down the device, optional one might need to **triggerLatch()**
-- ** bool isActive()** returns false if device is in shutdown mode.
+- **bool isActive()** returns false if device is in shutdown mode.
 
 
 ### Hardware SPI
@@ -99,10 +99,17 @@ MCP49xxx series only, see page 20 ==> not functional for MCP48xx series.
 - **bool getBufferedMode()** returns set value
 
 
+### debug
+
+- **void reset()** resets internal variables to initial value. (use with care!)
+- **bool usesHWSPI()** returns true if HW SPI is used.
+
+
 ## Future
 
 - test test test and ....
-- 
+- **incr(channel)** increases until max value is reached. 
+- **decr(channel)** decreases until 0 is reached. 
 
 
 
