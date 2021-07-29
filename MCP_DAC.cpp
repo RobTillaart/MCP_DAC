@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -9,6 +9,8 @@
 //  HISTORY
 //  0.1.0   2021-02-03  initial version
 //  0.1.1   2021-05-26  moved SPI.begin() from constructor to begin()
+//  0.1.2   2021-07-29    experimental VSPI support for ESP32
+
 
 #include "MCP_DAC.h"
 
@@ -49,7 +51,8 @@ void MCP_DAC::begin(uint8_t select)
   digitalWrite(_select, HIGH);
   if (_hwSPI)
   {
-    SPI.begin();
+    mySPI = new SPIClass(SPI);
+    mySPI->begin();
   }
 }
 
@@ -140,10 +143,10 @@ void MCP_DAC::transfer(uint16_t data)
   digitalWrite(_select, LOW);
   if (_hwSPI)
   {
-    SPI.beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
-    SPI.transfer((uint8_t)(data >> 8));
-    SPI.transfer((uint8_t)(data & 0xFF));
-    SPI.endTransaction();
+    mySPI->beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
+    mySPI->transfer((uint8_t)(data >> 8));
+    mySPI->transfer((uint8_t)(data & 0xFF));
+    mySPI->endTransaction();
   }
   else // Software SPI
   {

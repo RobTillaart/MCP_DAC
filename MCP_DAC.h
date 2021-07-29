@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.1
+// VERSION: 0.1.2
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,8 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.1"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.2"))
+
 
 
 ///////////////////////////////////////////////////////////////
@@ -85,6 +86,8 @@ protected:
 
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
+
+  SPIClass * mySPI;
 };
 
 
