@@ -52,12 +52,20 @@ void MCP_DAC::begin(uint8_t select)
   if (_hwSPI)
   {
     #if defined(ESP32)
-    if (_useHSPI) mySPI = new SPIClass(HSPI);
-    else          mySPI = new SPIClass(VSPI);
+    if (_useHSPI)
+    {
+      mySPI = new SPIClass(HSPI);
+      mySPI->begin(14, 12, 13, _select);
+    }
+    else
+    {
+      mySPI = new SPIClass(VSPI);
+      mySPI->begin(18, 19, 23, _select);
+    }
     #else
     mySPI = new SPIClass(SPI);
-    #endif
     mySPI->begin();
+    #endif
   }
 }
 
