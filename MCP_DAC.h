@@ -94,8 +94,9 @@ protected:
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
 
-  SPIClass * mySPI;
-  bool     _useHSPI = true;
+  SPIClass    * mySPI;
+  bool        _useHSPI = true;
+  SPISettings _fast;
 };
 
 
