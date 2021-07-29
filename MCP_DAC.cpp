@@ -138,9 +138,12 @@ void MCP_DAC::setLatchPin(uint8_t latchPin)
 
 void MCP_DAC::triggerLatch()
 {
-  digitalWrite(_latchPin, HIGH);
-  delayMicroseconds(1);     // 100 ns - Page 7
-  digitalWrite(_latchPin, LOW);
+  if (_latchPin != 255)
+  {
+    digitalWrite(_latchPin, HIGH);
+    delayMicroseconds(1);     // 100 ns - Page 7
+    digitalWrite(_latchPin, LOW);
+  }
 }
 
 
@@ -173,13 +176,15 @@ void MCP_DAC::transfer(uint16_t data)
 
 
 // MSBFIRST
-uint8_t  MCP_DAC::swSPI_transfer(uint8_t val)
+uint8_t MCP_DAC::swSPI_transfer(uint8_t val)
 {
+  uint8_t clk = _clock;
+  uint8_t dao = _dataOut;
   for (uint8_t mask = 0x80; mask; mask >>= 1)
   {
-    digitalWrite(_dataOut,(val & mask) != 0);
-    digitalWrite(_clock, HIGH);
-    digitalWrite(_clock, LOW);
+    digitalWrite(dao, (val & mask));
+    digitalWrite(clk, HIGH);
+    digitalWrite(clk, LOW);
   }
   return 0;
 }
