@@ -68,6 +68,13 @@ public:
   void     reset();
   bool     usesHWSPI() { return _hwSPI; };
 
+  // ESP32 specific
+  #if defined(ESP32)
+  void     selectHSPI() { _useHSPI = true;  };
+  void     selectVSPI() { _useHSPI = false; };
+  bool     isHSPI()     { return _useHSPI;  };
+  bool     isVSPI()     { return !_useHSPI; };
+  #endif
 
 protected:
   uint8_t  _dataOut;
@@ -88,6 +95,7 @@ protected:
   uint8_t  swSPI_transfer(uint8_t d);
 
   SPIClass * mySPI;
+  bool     _useHSPI = true;
 };
 
 

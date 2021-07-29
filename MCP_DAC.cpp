@@ -51,7 +51,12 @@ void MCP_DAC::begin(uint8_t select)
   digitalWrite(_select, HIGH);
   if (_hwSPI)
   {
+    #if defined(ESP32)
+    if (_useHSPI) mySPI = new SPIClass(HSPI);
+    else          mySPI = new SPIClass(VSPI);
+    #else
     mySPI = new SPIClass(SPI);
+    #endif
     mySPI->begin();
   }
 }
