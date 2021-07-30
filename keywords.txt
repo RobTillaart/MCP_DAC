@@ -43,6 +43,10 @@ getSPIspeed	KEYWORD2
 setBufferedMode	KEYWORD2
 getBufferedMode	KEYWORD2
 
+selectHSPI	KEYWORD2
+selectVSPI	KEYWORD2
+usesHSPI	KEYWORD2
+usesVSPI	KEYWORD2
 
 # Instances (KEYWORD2)
 

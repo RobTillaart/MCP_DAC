@@ -9,7 +9,9 @@
 //  HISTORY
 //  0.1.0   2021-02-03  initial version
 //  0.1.1   2021-05-26  moved SPI.begin() from constructor to begin()
-//  0.1.2   2021-07-29    experimental VSPI support for ESP32
+//  0.1.2   2021-07-29  VSPI / HSPI support for ESP32 (default pins only
+//                      faster software SPI
+//                      minor optimizations / refactor
 
 
 #include "MCP_DAC.h"
@@ -49,25 +51,27 @@ void MCP_DAC::begin(uint8_t select)
   _select = select;
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
+
+  _fast = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+
   if (_hwSPI)
   {
     #if defined(ESP32)
-    if (_useHSPI)
+    if (_useHSPI)      // HSPI
     {
       mySPI = new SPIClass(HSPI);
-      mySPI->begin(14, 12, 13, _select);
+      mySPI->begin(14, 12, 13, _select);   // CLK MISO MOSI SELECT
     }
-    else
+    else               // VSPI
     {
       mySPI = new SPIClass(VSPI);
-      mySPI->begin(18, 19, 23, _select);
+      mySPI->begin(18, 19, 23, _select);   // CLK MISO MOSI SELECT
     }
     #else
     mySPI = new SPIClass(SPI);
     mySPI->begin();
     #endif
   }
-  _fast = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 }
 
 
@@ -152,6 +156,13 @@ void MCP_DAC::shutDown()
   _active = false;
   transfer(0x0000);  // a write will reset the values..
 }
+
+
+void MCP_DAC::setSPIspeed(uint32_t speed)
+{ 
+  _SPIspeed = speed;
+  _fast = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+};
 
 
 void MCP_DAC::transfer(uint16_t data)

@@ -54,8 +54,8 @@ public:
   bool     isActive()  { return _active; };
 
   //       speed in Hz
-  void     setSPIspeed(uint32_t speed) { _SPIspeed = speed; };
-  uint32_t getSPIspeed()               { return _SPIspeed; };
+  void     setSPIspeed(uint32_t speed);
+  uint32_t getSPIspeed() { return _SPIspeed; };
 
   //
   //       MCP49xxx series only
@@ -72,8 +72,8 @@ public:
   #if defined(ESP32)
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
-  bool     isHSPI()     { return _useHSPI;  };
-  bool     isVSPI()     { return !_useHSPI; };
+  bool     usesHSPI()   { return _useHSPI;  };
+  bool     usesVSPI()   { return !_useHSPI; };
   #endif
 
 protected:
@@ -95,8 +95,11 @@ protected:
   uint8_t  swSPI_transfer(uint8_t d);
 
   SPIClass    * mySPI;
-  bool        _useHSPI = true;
   SPISettings _fast;
+
+  #if defined(ESP32)
+  bool        _useHSPI = true;
+  #endif
 };
 
 
