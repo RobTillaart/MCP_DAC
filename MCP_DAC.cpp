@@ -21,17 +21,10 @@ MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock)
 {
   _dataOut  = dataOut;
   _clock    = clock;
+  _select   = 0;
   _hwSPI    = (dataOut == 255) || (clock == 255);
-  if (_hwSPI == false)
-  {
-    pinMode(_dataOut, OUTPUT);
-    pinMode(_clock,   OUTPUT);
-    digitalWrite(_dataOut, LOW);
-    digitalWrite(_clock,   LOW);
-  }
   _channels = 1;
   _maxValue = 255;
-  _select   = 0;
   reset();
 }
 
@@ -67,10 +60,17 @@ void MCP_DAC::begin(uint8_t select)
       mySPI = new SPIClass(VSPI);
       mySPI->begin(18, 19, 23, _select);   // CLK MISO MOSI SELECT
     }
-    #else
+    #else              // generic SPI
     mySPI = new SPIClass(SPI);
     mySPI->begin();
     #endif
+  }
+  else                 // software SPI
+  {
+    pinMode(_dataOut, OUTPUT);
+    pinMode(_clock,   OUTPUT);
+    digitalWrite(_dataOut, LOW);
+    digitalWrite(_clock,   LOW);
   }
 }
 
@@ -159,10 +159,13 @@ void MCP_DAC::shutDown()
 
 
 void MCP_DAC::setSPIspeed(uint32_t speed)
-{ 
+{
   _SPIspeed = speed;
   _fast = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 };
+
+
+//////////////////////////////////////////////////////////////////
 
 
 void MCP_DAC::transfer(uint16_t data)
