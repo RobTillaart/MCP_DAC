@@ -61,7 +61,7 @@ void MCP_DAC::begin(uint8_t select)
       mySPI->begin(18, 19, 23, _select);   // CLK MISO MOSI SELECT
     }
     #else              // generic SPI
-    mySPI = new SPIClass(SPI);
+    mySPI = &SPI;
     mySPI->begin();
     #endif
   }
