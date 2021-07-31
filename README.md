@@ -99,7 +99,7 @@ MCP49xxx series only, see page 20 ==> not functional for MCP48xx series.
 - **bool getBufferedMode()** returns set value
 
 
-### debug
+### Debug
 
 - **void reset()** resets internal variables to initial value. (use with care!)
 - **bool usesHWSPI()** returns true if HW SPI is used.
@@ -107,18 +107,36 @@ MCP49xxx series only, see page 20 ==> not functional for MCP48xx series.
 
 ### ESP32 specific
 
+This functionality is new in 0.1.2 and it is expected that the interface will change
+in the future. 
+
 - **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
 - **void selectVSPI()** see above.
 - **bool usesHSPI()** returns true if HSPI is used.
 - **bool usesVSPI()** returns true if VSPI is used.
+- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI.
 
+The **selectVSPI()** or the **selectHSPI()** needs to be called 
+BEFORE the **begin()** function.
+
+The **setGPIOpins(clk, miso, mosi, select)** needs to be called 
+AFTER the **begin()** function
+
+```cpp
+void setup()
+{
+  MCP.selectVSPI();
+  MCP.begin(10);
+  MCP.setGPIOpins(a,b,c,d);
+}
+```
 
 ## Future
 
 - test test test and ....
 - **incr(channel)** increases until max value is reached. 
 - **decr(channel)** decreases until 0 is reached. 
-- set gpio pins of the ESP32 for hardware SPI
+- refactor the API 
 - ...
 
 
