@@ -65,6 +65,8 @@ So if Vref is connected to 5V, gain=2 will not output 10 Volts.
 - **float getPercentage(uint8_t channel = 0)** returns percentage. Wrapper around **lastValue()**.
 - **void fastWriteA(uint16_t value)** faster version to write to channel 0. Does not check flags and does not update **lastValue()**
 - **void fastWriteB(uint16_t value)** faster version to write to channel 1. Does not check flags and does not update **lastValue()**
+- **bool increment(uint8_t channel = 0)** returns true if channel is incremented, false otherwise.
+- **bool decrement(uint8_t channel = 0)** returns true if channel is decremented, false otherwise.
 
 For fastest speed there is an example added **MCP4921_standalone.ino**. 
 That squeezes the most performance out of it for now.

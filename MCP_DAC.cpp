@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -12,6 +12,7 @@
 //  0.1.2   2021-07-29  VSPI / HSPI support for ESP32 (default pins only
 //                      faster software SPI
 //                      minor optimizations / refactor
+//  0.1.3   2021-07-31  add incr() and decr()
 
 
 #include "MCP_DAC.h"
@@ -126,6 +127,20 @@ void MCP_DAC::fastWriteA(uint16_t value)
 void MCP_DAC::fastWriteB(uint16_t value)
 {
   transfer(0xB000 | value);
+}
+
+
+bool MCP_DAC::increment(uint8_t channel)
+{
+  if (_value[channel] == _maxValue) return false;
+  return analogWrite(_value[channel] + 1,  channel);
+}
+
+
+bool MCP_DAC::decrement(uint8_t channel)
+{
+  if (_value[channel] == 0) return false;
+  return analogWrite(_value[channel] - 1,  channel);
 }
 
 
