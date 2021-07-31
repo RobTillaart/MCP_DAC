@@ -97,7 +97,7 @@ protected:
   uint8_t  swSPI_transfer(uint8_t d);
 
   SPIClass    * mySPI;
-  SPISettings _fast;
+  SPISettings _spi_settings;
 
   #if defined(ESP32)
   bool        _useHSPI = true;

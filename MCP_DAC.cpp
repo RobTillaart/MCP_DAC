@@ -45,7 +45,7 @@ void MCP_DAC::begin(uint8_t select)
   pinMode(_select, OUTPUT);
   digitalWrite(_select, HIGH);
 
-  _fast = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 
   if (_hwSPI)
   {
@@ -172,7 +172,7 @@ void MCP_DAC::shutDown()
 void MCP_DAC::setSPIspeed(uint32_t speed)
 {
   _SPIspeed = speed;
-  _fast = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
+  _spi_settings = SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0);
 };
 
 
@@ -186,7 +186,7 @@ void MCP_DAC::transfer(uint16_t data)
   if (_hwSPI)
   {
     // mySPI->beginTransaction(SPISettings(_SPIspeed, MSBFIRST, SPI_MODE0));
-    mySPI->beginTransaction(_fast);
+    mySPI->beginTransaction(_spi_settings);
     mySPI->transfer((uint8_t)(data >> 8));
     mySPI->transfer((uint8_t)(data & 0xFF));
     mySPI->endTransaction();
