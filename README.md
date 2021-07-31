@@ -147,8 +147,6 @@ The default hardware GPIO pins of the VSPI and HSPI
 ## Future
 
 - test test test and ....
-- **incr(channel)** increases until max value is reached. 
-- **decr(channel)** decreases until 0 is reached. 
 - refactor the API 
 - ...
 
