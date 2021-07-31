@@ -26,8 +26,8 @@ void setup()
   Serial.println(__FILE__);
 
   MCP.selectVSPI();     // needs to be called before begin()
-  MCP.begin(10);
-  MCP.setGPIOpins(20,21,22,10);   // needs to be called after begin()
+                        // uses default VSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
+  MCP.begin(15);
   
   Serial.print("MCP_DAC_LIB_VERSION: ");
   Serial.println(MCP_DAC_LIB_VERSION);
