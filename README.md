@@ -126,10 +126,21 @@ AFTER the **begin()** function
 void setup()
 {
   MCP.selectVSPI();
-  MCP.begin(10);
-  MCP.setGPIOpins(a,b,c,d);
+  MCP.begin(15);
+  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
 }
 ```
+
+#### ESP32 connections to MCP4922
+
+The default hardware GPIO pins of the VSPI and HSPI 
+
+| MCP4922  | ESP32  VSPI   | ESP32  HSPI   |
+|:--------:|:-------------:|:-------------:|
+|  CS      |  SELECT = 15  |  SELECT = 5   |
+|  SCK     |  SCLK   = 14  |  SCLK   = 18  |
+|  SDI     |  MOSI   = 13  |  MOSI   = 23  |
+
 
 ## Future
 
