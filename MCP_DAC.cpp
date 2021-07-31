@@ -75,6 +75,17 @@ void MCP_DAC::begin(uint8_t select)
 }
 
 
+#if defined(ESP32)
+void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
+{
+  _clock   = clk;
+  _dataOut = mosi;
+  _select  = select;
+  mySPI->begin(_clock, miso, _dataOut, _select);  // CLK MISO MOSI SELECT
+}
+#endif
+
+
 bool MCP_DAC::setGain(uint8_t gain)
 {
   if ((0 < gain) && (gain < 2)) return false;
