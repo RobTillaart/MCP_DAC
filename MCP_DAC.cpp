@@ -132,6 +132,7 @@ void MCP_DAC::fastWriteB(uint16_t value)
 
 bool MCP_DAC::increment(uint8_t channel)
 {
+  if (channel >= _channels) return false;
   if (_value[channel] == _maxValue) return false;
   return analogWrite(_value[channel] + 1,  channel);
 }
@@ -139,6 +140,7 @@ bool MCP_DAC::increment(uint8_t channel)
 
 bool MCP_DAC::decrement(uint8_t channel)
 {
+  if (channel >= _channels) return false;
   if (_value[channel] == 0) return false;
   return analogWrite(_value[channel] - 1,  channel);
 }
