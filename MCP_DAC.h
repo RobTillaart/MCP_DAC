@@ -78,7 +78,9 @@ public:
   void     selectVSPI() { _useHSPI = false; };
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
-  // to overrule ESP32 default hw pins...
+
+  // EXPERIMENTAL 
+  // to overrule ESP32 default hardware pins... needs testing
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 

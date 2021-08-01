@@ -116,12 +116,14 @@ in the future.
 - **void selectVSPI()** see above.
 - **bool usesHSPI()** returns true if HSPI is used.
 - **bool usesVSPI()** returns true if VSPI is used.
-- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI.
 
 The **selectVSPI()** or the **selectHSPI()** needs to be called 
 BEFORE the **begin()** function.
 
-The **setGPIOpins(clk, miso, mosi, select)** needs to be called 
+
+#### experimental
+
+- **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
 AFTER the **begin()** function
 
 ```cpp
