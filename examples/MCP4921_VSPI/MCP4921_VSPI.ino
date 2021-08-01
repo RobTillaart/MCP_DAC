@@ -26,8 +26,9 @@ void setup()
   Serial.println(__FILE__);
 
   MCP.selectVSPI();     // needs to be called before begin()
-                        // uses default VSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
-  MCP.begin(15);
+                        // uses default HSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
+                        // uses default VSPI SCLK=18, MISO=19, MOSI=23, SELECT=5
+  MCP.begin(5);         // 5 for VSPI and 15 for HSPI
   
   Serial.print("MCP_DAC_LIB_VERSION: ");
   Serial.println(MCP_DAC_LIB_VERSION);
@@ -38,6 +39,7 @@ void setup()
   Serial.println(MCP.maxValue());
   delay(100);
 
+  // MCP.setSPIspeed(100000);  // for slower scopes
   performance_test();
 
   Serial.println("\nDone...");
@@ -79,6 +81,7 @@ void performance_test()
 
 void loop()
 {
+  performance_test();
 }
 
 

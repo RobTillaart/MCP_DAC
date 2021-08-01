@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.2"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.3"))
 
 
 
@@ -41,6 +41,10 @@ public:
   uint16_t lastValue(uint8_t channel = 0) { return _value[channel]; };
   void     fastWriteA(uint16_t value);
   void     fastWriteB(uint16_t value);
+
+  bool     increment(uint8_t channel = 0);
+  bool     decrement(uint8_t channel = 0);
+
   //       convenience wrappers
   void     setPercentage(float perc, uint8_t channel = 0);  //  perc = 0..100.0%
   float    getPercentage(uint8_t channel);
