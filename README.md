@@ -133,15 +133,19 @@ void setup()
 }
 ```
 
-#### ESP32 connections to MCP4922
+#### ESP32 connections to MCP4922 (example)
 
-The default hardware GPIO pins of the VSPI and HSPI 
+ESP32 has **four** SPI peripherals.
 
-| MCP4922  | ESP32  VSPI   | ESP32  HSPI   |
+SPI0 and SPI1 are used to access flash memory. SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
+
+
+| MCP4922  |  HSPI - SPI2  |  VSPI - SPI3  |
 |:--------:|:-------------:|:-------------:|
-|  CS      |  SELECT = 15  |  SELECT = 5   |
-|  SCK     |  SCLK   = 14  |  SCLK   = 18  |
-|  SDI     |  MOSI   = 13  |  MOSI   = 23  |
+|  CS      |  SELECT = 15  |  SELECT = 5   | 
+|  SCK     |  SCLK   = 14  |  SCLK   = 18  | 
+|  SDI     |  MOSI   = 13  |  MOSI   = 23  | 
+| not used |  MISO   = 12  |  MISO   = 19  |
 
 
 ## Future
