@@ -124,7 +124,7 @@ BEFORE the **begin()** function.
 #### experimental
 
 - **void setGPIOpins(clk, miso, mosi, select)** overrule GPIO pins of ESP32 for hardware SPI. needs to be called 
-AFTER the **begin()** function
+AFTER the **begin()** function.
 
 ```cpp
 void setup()
@@ -135,6 +135,7 @@ void setup()
 }
 ```
 
+
 #### ESP32 connections to MCP4922 (example)
 
 ESP32 has **four** SPI peripherals.
@@ -142,7 +143,7 @@ ESP32 has **four** SPI peripherals.
 SPI0 and SPI1 are used to access flash memory. SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
 
 
-| MCP4922  |  HSPI - SPI2  |  VSPI - SPI3  |
+| MCP4922  |  HSPI = SPI2  |  VSPI = SPI3  |
 |:--------:|:-------------:|:-------------:|
 |  CS      |  SELECT = 15  |  SELECT = 5   | 
 |  SCK     |  SCLK   = 14  |  SCLK   = 18  | 
