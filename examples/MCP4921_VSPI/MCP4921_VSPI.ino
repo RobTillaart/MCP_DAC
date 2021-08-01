@@ -29,6 +29,9 @@ void setup()
                         // uses default HSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
                         // uses default VSPI SCLK=18, MISO=19, MOSI=23, SELECT=5
   MCP.begin(5);         // 5 for VSPI and 15 for HSPI
+
+  // experimental
+  // MCP.setGPIOpins(23, 18, 19, 15);  //  CLK MISO MOSI SELECT
   
   Serial.print("MCP_DAC_LIB_VERSION: ");
   Serial.println(MCP_DAC_LIB_VERSION);

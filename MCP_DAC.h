@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.3
+// VERSION: 0.1.4
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.3"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.4"))
 
 
 
@@ -25,6 +25,7 @@ class MCP_DAC
 {
 public:
   MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255);
+
   // if only select is given ==> HW SPI
   void     begin(uint8_t select);
 
@@ -79,8 +80,7 @@ public:
   bool     usesHSPI()   { return _useHSPI;  };
   bool     usesVSPI()   { return !_useHSPI; };
 
-  // EXPERIMENTAL 
-  // to overrule ESP32 default hardware pins... needs testing
+  // to overrule ESP32 default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
   #endif
 
