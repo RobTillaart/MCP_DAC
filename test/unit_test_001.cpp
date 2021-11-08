@@ -57,13 +57,13 @@ unittest(test_gain)
 
   assertEqual(1, MCP.getGain());
 
-  MCP.setGain(2);
+  assertTrue(MCP.setGain(2));
   assertEqual(2, MCP.getGain());
 
-  MCP.setGain(0);
+  assetFalse(MCP.setGain(0));
   assertEqual(2, MCP.getGain());
 
-  MCP.setGain();
+  assertTrue(MCP.setGain());
   assertEqual(1, MCP.getGain());
 }
 
