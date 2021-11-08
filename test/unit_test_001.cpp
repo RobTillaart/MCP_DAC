@@ -94,7 +94,7 @@ unittest(test_active)
 
   assertTrue(MCP.isActive());
 
-  MCP.shutDown(true);
+  MCP.shutDown();
   assertFalse(MCP.isActive());
 
   MCP.reset();
