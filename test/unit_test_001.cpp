@@ -61,7 +61,10 @@ unittest(test_gain)
   assertEqual(2, MCP.getGain());
 
   assertFalse(MCP.setGain(0));
-  fprintf(stderr, "GAIN: %d", MCP.getGain());
+  // fprintf(stderr, "GAIN: %d", MCP.getGain());
+  assertEqual(2, MCP.getGain());
+
+  assertFalse(MCP.setGain(3));
   assertEqual(2, MCP.getGain());
 
   assertTrue(MCP.setGain());
