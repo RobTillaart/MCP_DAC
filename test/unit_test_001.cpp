@@ -60,7 +60,8 @@ unittest(test_gain)
   assertTrue(MCP.setGain(2));
   assertEqual(2, MCP.getGain());
 
-  assetFalse(MCP.setGain(0));
+  assertFalse(MCP.setGain(0));
+  fprintf(stderr, "GAIN: %d", MCP.getGain());
   assertEqual(2, MCP.getGain());
 
   assertTrue(MCP.setGain());
