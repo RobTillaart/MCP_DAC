@@ -102,7 +102,7 @@ void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
 
 bool MCP_DAC::setGain(uint8_t gain)
 {
-  if ((0 == gain) && (gain > 2)) return false;
+  if ((0 == gain) || (gain > 2)) return false;
   _gain = gain;
   return true;
 }
