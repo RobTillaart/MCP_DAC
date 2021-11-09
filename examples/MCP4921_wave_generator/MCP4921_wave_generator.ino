@@ -51,7 +51,7 @@ void setup()
     sine[i] = 2047 + round(2047 * sin(i * PI / 180));
   }
 
-  MCP.begin(7);  // select pin = 7
+  MCP.begin(10);  // select pin = 10
   MCP.fastWriteA(0);
 
   period = 1e6 / freq;
