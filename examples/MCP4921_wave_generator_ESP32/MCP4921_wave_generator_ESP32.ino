@@ -1,7 +1,6 @@
 //
 //    FILE: MCP4921_wave_generator_ESP32.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
 // PURPOSE: demo function generators
 //    DATE: 2021-02-03
 //     URL: https://github.com/RobTillaart/FunctionGenerator
@@ -56,13 +55,13 @@ void setup()
                         // uses default HSPI SCLK=14, MISO=12, MOSI=13, SELECT=15
                         // uses default VSPI SCLK=18, MISO=19, MOSI=23, SELECT=5
   MCP.begin(15);        // 5 for VSPI and 15 for HSPI
-  
+
   MCP.fastWriteA(0);
 
   period = 1e6 / freq;
   halvePeriod = period / 2;
 
-  while (1)   // endless loop - could have been done in loop() 
+  while (1)   // endless loop - could have been done in loop()
   {
     // Serial.println(analogRead(A0));   // read output back via A0.
     yield();
