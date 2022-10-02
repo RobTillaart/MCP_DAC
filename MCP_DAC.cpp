@@ -73,7 +73,7 @@ void MCP_DAC::begin(uint8_t select)
   
     #elif defined(ARDUINO_ARCH_RP2040)
     
-    if (_useSPI == false &&  _useSPI1 == true) {
+    if (_useSPI1 == true) {
       mySPI = &SPI1;
     }else{
       mySPI = &SPI;
