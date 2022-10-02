@@ -160,6 +160,48 @@ SPI0 and SPI1 are used to access flash memory. SPI2 and SPI3 are "user" SPI cont
 | not used |  MISO   = 12  |  MISO   = 19  |
 
 
+
+### RP2040 specific
+
+Select SPI bus on which the Device is on. Both need to be called before the **begin()** function. If the function is called after the **begin()** function, changes will only apply if the **end()** and then the **begin()** functions are called 
+
+- **void selectSPI()** Select the SPI bus (Standard, does not need to be called)
+- **void selectSPI1()** Select the SPI1 bus
+
+- **bool usesSPI()** returns true if SPI is used
+- **bool usesSPI1()** returns true if SPI1 is used
+
+#### experimental
+
+- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of RP2040 for different SPI pins. needs to be called 
+AFTER the **begin()** function. Selcted pins must match the RP2040 pinout!
+
+
+```cpp
+void setup()
+{
+  MCP.selectSPI();    //use for SPI / SPI0
+  MCP.selectSPI1();   //use for SPI1
+  MCP.begin(17);
+  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
+}
+```
+
+#### Pico connections to MCP4922 (example)
+
+The RP2040 has **two** SPI peripherals from which two can be used.
+
+SPI (SPI0) and SPI1 can both be usd to connect devices
+
+
+| MCP4922  |   SPI / SPI0  |      SPI1     |
+|:--------:|:-------------:|:-------------:|
+|  CS      |  SELECT = 17  |  SELECT = 13  | 
+|  SCK     |  SCLK   = 18  |  SCLK   = 14  | 
+|  SDI     |  MOSI   = 19  |  MOSI   = 15  | 
+| not used |  MISO   = 16  |  MISO   = 12  |
+
+
 ## Future
 
 - test test test and ....

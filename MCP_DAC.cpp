@@ -70,6 +70,19 @@ void MCP_DAC::begin(uint8_t select)
       mySPI->end();
       mySPI->begin(18, 19, 23, select);   // CLK=18 MISO=19 MOSI=23
     }
+  
+    #elif defined(ARDUINO_ARCH_RP2040)
+    
+    if (_useSPI1 == true) {
+      mySPI = &SPI1;
+    }else{
+      mySPI = &SPI;
+    }
+
+    mySPI->end();
+    mySPI->begin();
+
+
     #else              // generic hardware SPI
     mySPI = &SPI;
     mySPI->end();
@@ -85,8 +98,7 @@ void MCP_DAC::begin(uint8_t select)
   }
 }
 
-
-#if defined(ESP32)
+#if defined(ESP32) or defined(ARDUINO_ARCH_RP2040)
 void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
 {
   _clock   = clk;
@@ -96,7 +108,20 @@ void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   digitalWrite(_select, HIGH);
 
   mySPI->end();  // disable SPI
+
+  #if defined(ESP32)
+
   mySPI->begin(clk, miso, mosi, select);
+
+  #elif defined(ARDUINO_ARCH_RP2040)
+
+  mySPI->setCS(select);
+  mySPI->setSCK(clk);
+  mySPI->setTX(mosi);
+
+  mySPI->begin();
+
+  #endif
 }
 #endif
 
