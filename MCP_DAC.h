@@ -136,7 +136,6 @@ protected:
   
   #elif defined(ARDUINO_ARCH_RP2040)
 
-  bool _useSPI = true;
   bool _useSPI1 = false;
 
   #endif
