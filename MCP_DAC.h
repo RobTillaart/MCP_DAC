@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -74,7 +74,7 @@ public:
   void     reset();
   bool     usesHWSPI() { return _hwSPI; };
 
-  
+
   #if defined(ESP32)                    // ESP32 specific
 
   void     selectHSPI() { _useHSPI = true;  };
@@ -85,7 +85,7 @@ public:
   // to overrule the ESP32s default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
 
-  
+
   #elif defined(ARDUINO_ARCH_RP2040)    // RP2040 specific
 
   // check which SPI-Bus (SPI or SPI1) is used
@@ -109,11 +109,11 @@ protected:
   uint32_t _SPIspeed = 16000000;    // SPI-Bus Frequency
 
   uint8_t  _channels;               // Number of DAC-Channels of a given Chip
-  uint16_t _maxValue;               // maximum value of a given Chip
-  uint16_t _value[2];               // Current value
+  uint16_t _maxValue;               // Maximum value of a given Chip
+  uint16_t _value[2];               // Current value  (cache for performance)
   uint8_t  _gain;                   // Programmable Gain Amplifier variable
   bool     _buffered = false;       // Buffer for the Reference Voltage of the MCP49XX Series Chips
-  bool     _active   = true;
+  bool     _active   = true;        // Indicates shutDown mode.
 
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
@@ -125,18 +125,18 @@ protected:
   #else
 
   SPIClass    * mySPI;
-  
+
   #endif
-  
+
   SPISettings _spi_settings;
 
   #if defined(ESP32)
 
-  bool        _useHSPI = true;
-  
+  bool     _useHSPI = true;
+
   #elif defined(ARDUINO_ARCH_RP2040)
 
-  bool _useSPI1 = false;
+  bool     _useSPI1 = false;
 
   #endif
 };

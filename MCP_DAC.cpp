@@ -1,7 +1,7 @@
 //
 //    FILE: MCP_DAC.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.1.7
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -20,6 +20,9 @@
 //                      default parameter 0 for getPercentage()
 //                      extended unit tests
 //  0.1.6   2021-12-21  update library.json, license, minor edits
+//  0.1.7   2022-10-02  support for RP2040 pico (kudos to Intubin)
+//                      update documentation for RP2040 (kudos to Intubin)
+//                      update build-CI to support RP2040
 
 
 #include "MCP_DAC.h"
@@ -70,9 +73,9 @@ void MCP_DAC::begin(uint8_t select)
       mySPI->end();
       mySPI->begin(18, 19, 23, select);   // CLK=18 MISO=19 MOSI=23
     }
-  
+
     #elif defined(ARDUINO_ARCH_RP2040)
-    
+
     if (_useSPI1 == true) {
       mySPI = &SPI1;
     }else{
@@ -97,6 +100,7 @@ void MCP_DAC::begin(uint8_t select)
     digitalWrite(_clock,   LOW);
   }
 }
+
 
 #if defined(ESP32) or defined(ARDUINO_ARCH_RP2040)
 void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
