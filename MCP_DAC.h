@@ -89,9 +89,9 @@ public:
   #elif defined(ARDUINO_ARCH_RP2040)    // RP2040 specific
 
   // check which SPI-Bus (SPI or SPI1) is used
-  void     selectSPI()  { _useSPI = true;   _useSPI1 = false;  };
-  void     selectSPI1() { _useSPI = false;  _useSPI1 = true; };
-  bool     usesSPI()    { return _useSPI;  };
+  void     selectSPI()  { _useSPI1 = false;  };
+  void     selectSPI1() { _useSPI1 = true; };
+  bool     usesSPI()    { return !_useSPI1;  };
   bool     usesSPI1()   { return _useSPI1;  };
 
   // to overrule the RP2040s default hardware pins
