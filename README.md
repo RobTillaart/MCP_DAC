@@ -43,9 +43,10 @@ which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 ### Constructor
 
-- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass inSPI = &SPI)** Constructor base class.
+- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040.
+- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass \*mySPI = &SPI)** Constructor base class.
   Other devices just use their name as class object e.g. MCP4801 with same parameters.
-- **begin(uint8_t select, uint8_t latchPin = 255)** defines the select pin.
+- **begin(uint8_t select)** defines the select pin.
 The select pin is used for device selection in case of multiple SPI devices.
 - **uint8_t channels()** returns the number of channels.
 - **uint16_t maxValue()** returns the maximum value that can be set.
@@ -175,7 +176,7 @@ The SPI Port selections happens in the constructor with e.g. &SPI or &SPI1. For 
 ### Experimental
 
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of RP2040 for different SPI pins. needs to be called
-AFTER the **begin()** function. Selcted pins must match the RP2040 pinout! Warning! This command changes the Pins of the Bus not only of a specific device, but all devices, that are connected on that Bus!
+AFTER the **begin()** function. Selected pins must match the RP2040 pinout! Warning! This command changes the Pins of the Bus not only of a specific device, but all devices, that are connected on that Bus!
 
 
 ```cpp
@@ -231,5 +232,5 @@ See examples
 
 - refactor the API (how).
 - minimize conditional in code if possible.
-
+- move code from .h to .cpp
 
