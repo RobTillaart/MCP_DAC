@@ -43,7 +43,7 @@ which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 ### Constructor
 
-- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255)** Constructor base class.
+- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass inSPI = &SPI)** Constructor base class.
   Other devices just use their name as class object e.g. MCP4801 with same parameters.
 - **begin(uint8_t select, uint8_t latchPin = 255)** defines the select pin.
 The select pin is used for device selection in case of multiple SPI devices.
@@ -169,27 +169,22 @@ one SPI bus.
 
 ### SPI port selection
 
-Select the SPI bus on which the device is on. Both need to be called before the **begin()** function. If the function is called after the **begin()** function, changes will only apply if the **end()** and then the **begin()** functions are called.
-
-- **void selectSPI()** Select the SPI (SPI0) bus. This is the default and  does not need to be called.
-- **void selectSPI1()** Select the (second) SPI1 bus.
-- **bool usesSPI()** returns true if SPI is used
-- **bool usesSPI1()** returns true if SPI1 is used
+The SPI Port selections happens in the constructor with e.g. &SPI or &SPI1. For the pin swap, you need the call the experimental feature **void setGPIOpins**. In the constructor you need to call the parameter dataOut and clock both with 255 (0xff) or otherwise it will use SoftSPI. 
 
 
 ### Experimental
 
 - **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** overrule GPIO pins of RP2040 for different SPI pins. needs to be called
-AFTER the **begin()** function. Selcted pins must match the RP2040 pinout!
+AFTER the **begin()** function. Selcted pins must match the RP2040 pinout! Warning! This command changes the Pins of the Bus not only of a specific device, but all devices, that are connected on that Bus!
 
 
 ```cpp
+MCP4822 MCP(255, 255, &SPI1)
+
 void setup()
 {
-  MCP.selectSPI();    //use for SPI / SPI0
-  MCP.selectSPI1();   //use for SPI1
-  MCP.begin(17);
   MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
+  MCP.begin(17);
 }
 ```
 

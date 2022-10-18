@@ -27,9 +27,13 @@
 
 #include "MCP_DAC.h"
 
-
-MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock)
+#if defined (ARDUINO_ARCH_RP2040)
+MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock, SPIClassRP2040 *inSPI)
+#else
+MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock, SPIClass *inSPI)
+#endif
 {
+  mySPI = inSPI;
   _dataOut  = dataOut;
   _clock    = clock;
   _select   = 0;
@@ -38,7 +42,6 @@ MCP_DAC::MCP_DAC(uint8_t dataOut,  uint8_t clock)
   _maxValue = 255;
   reset();
 }
-
 
 void MCP_DAC::reset()
 {
@@ -75,12 +78,6 @@ void MCP_DAC::begin(uint8_t select)
     }
 
     #elif defined(ARDUINO_ARCH_RP2040)
-
-    if (_useSPI1 == true) {
-      mySPI = &SPI1;
-    }else{
-      mySPI = &SPI;
-    }
 
     mySPI->end();
     mySPI->begin();
@@ -275,47 +272,47 @@ uint8_t MCP_DAC::swSPI_transfer(uint8_t val)
   return 0;
 }
 
-
+#if defined(ARDUINO_ARCH_RP2040)
 /////////////////////////////////////////////////////////////////////////////
 //
 // MCP4800 series
 //
-MCP4801::MCP4801(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4801::MCP4801(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 1;
   _maxValue = 255;
 };
 
 
-MCP4802::MCP4802(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4802::MCP4802(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 2;
   _maxValue = 255;
 };
 
 
-MCP4811::MCP4811(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4811::MCP4811(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 1;
   _maxValue = 1023;
 };
 
 
-MCP4812::MCP4812(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4812::MCP4812(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 2;
   _maxValue = 1023;
 };
 
 
-MCP4821::MCP4821(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4821::MCP4821(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 1;
   _maxValue = 4095;
 };
 
 
-MCP4822::MCP4822(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4822::MCP4822(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 2;
   _maxValue = 4095;
@@ -326,35 +323,35 @@ MCP4822::MCP4822(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 //
 // MCP4900 series
 //
-MCP4901::MCP4901(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4901::MCP4901(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 1;
   _maxValue = 255;
 };
 
 
-MCP4902::MCP4902(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4902::MCP4902(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 2;
   _maxValue = 255;
 };
 
 
-MCP4911::MCP4911(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4911::MCP4911(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 1;
   _maxValue = 1023;
 };
 
 
-MCP4912::MCP4912(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4912::MCP4912(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 2;
   _maxValue = 1023;
 };
 
 
-MCP4921::MCP4921(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4921::MCP4921(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 1;
   _maxValue = 4095;
@@ -362,12 +359,105 @@ MCP4921::MCP4921(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
 };
 
 
-MCP4922::MCP4922(uint8_t dataOut, uint8_t clock) : MCP_DAC(dataOut, clock)
+MCP4922::MCP4922(uint8_t dataOut, uint8_t clock, SPIClassRP2040 *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 2;
+  _maxValue = 4095;
+};
+#else
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// MCP4800 series
+//
+MCP4801::MCP4801(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 1;
+  _maxValue = 255;
+};
+
+
+MCP4802::MCP4802(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 2;
+  _maxValue = 255;
+};
+
+
+MCP4811::MCP4811(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 1;
+  _maxValue = 1023;
+};
+
+
+MCP4812::MCP4812(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 2;
+  _maxValue = 1023;
+};
+
+
+MCP4821::MCP4821(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 1;
+  _maxValue = 4095;
+};
+
+
+MCP4822::MCP4822(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
 {
   _channels = 2;
   _maxValue = 4095;
 };
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// MCP4900 series
+//
+MCP4901::MCP4901(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 1;
+  _maxValue = 255;
+};
+
+
+MCP4902::MCP4902(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 2;
+  _maxValue = 255;
+};
+
+
+MCP4911::MCP4911(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 1;
+  _maxValue = 1023;
+};
+
+
+MCP4912::MCP4912(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 2;
+  _maxValue = 1023;
+};
+
+
+MCP4921::MCP4921(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 1;
+  _maxValue = 4095;
+
+};
+
+
+MCP4922::MCP4922(uint8_t dataOut, uint8_t clock, SPIClass *inSPI) : MCP_DAC(dataOut, clock, inSPI)
+{
+  _channels = 2;
+  _maxValue = 4095;
+};
+#endif
 
 // -- END OF FILE --
 
