@@ -25,11 +25,11 @@ class MCP_DAC
 {
 public:
 
-  //#if defined(ARDUINO_ARCH_RP2040)
+  #if defined(ARDUINO_ARCH_RP2040)
   MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 *mySPI = &SPI);
-  //#else
-  //MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass *mySPI = &SPI);
-  //#endif
+  #else
+  MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass *mySPI = &SPI);
+  #endif
 
   // if only select is given ==> HW SPI
   void     begin(uint8_t select);
@@ -217,7 +217,7 @@ public:
   #if defined(ARDUINO_ARCH_RP2040)
   MCP4901(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 *inSPI = &SPI);
   #else
-  MCP4902(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass *inSPI = &SPI);
+  MCP4901(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass *inSPI = &SPI);
   #endif
 };
 
