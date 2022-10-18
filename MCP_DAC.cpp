@@ -84,7 +84,6 @@ void MCP_DAC::begin(uint8_t select)
 
 
     #else              // generic hardware SPI
-    mySPI = &SPI;
     mySPI->end();
     mySPI->begin();
     #endif
