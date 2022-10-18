@@ -77,12 +77,6 @@ void MCP_DAC::begin(uint8_t select)
       mySPI->begin(18, 19, 23, select);   // CLK=18 MISO=19 MOSI=23
     }
 
-    #elif defined(ARDUINO_ARCH_RP2040)
-
-    mySPI->end();
-    mySPI->begin();
-
-
     #else              // generic hardware SPI
     mySPI->end();
     mySPI->begin();
