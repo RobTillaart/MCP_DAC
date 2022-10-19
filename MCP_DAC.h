@@ -2,7 +2,7 @@
 //
 //    FILE: MCP_DAC.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.7
+// VERSION: 0.1.8
 //    DATE: 2021-02-03
 // PURPOSE: Arduino library for MCP_DAC
 //     URL: https://github.com/RobTillaart/MCP_DAC
@@ -13,7 +13,7 @@
 #include "SPI.h"
 
 
-#define MCP_DAC_LIB_VERSION       (F("0.1.7"))
+#define MCP_DAC_LIB_VERSION       (F("0.1.8"))
 
 
 
@@ -25,11 +25,11 @@ class MCP_DAC
 {
 public:
 
-  #if defined(ARDUINO_ARCH_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
   MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 *mySPI = &SPI);
-  #else
+#else
   MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass *mySPI = &SPI);
-  #endif
+#endif
 
   // if only select is given ==> HW SPI
   void     begin(uint8_t select);
@@ -80,7 +80,7 @@ public:
   bool     usesHWSPI() { return _hwSPI; };
 
 
-  #if defined(ESP32)                    // ESP32 specific
+#if defined(ESP32)                    // ESP32 specific
 
   void     selectHSPI() { _useHSPI = true;  };
   void     selectVSPI() { _useHSPI = false; };
@@ -90,13 +90,12 @@ public:
   // to overrule the ESP32s default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
 
-
-  #elif defined(ARDUINO_ARCH_RP2040)    // RP2040 specific
+#elif defined(ARDUINO_ARCH_RP2040)    // RP2040 specific
 
   // to overrule the RP2040s default hardware pins
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
 
-  #endif
+#endif
 
 
 protected:
@@ -117,23 +116,23 @@ protected:
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
 
-  #if defined(ARDUINO_ARCH_RP2040)
+#if defined(ARDUINO_ARCH_RP2040)
 
   SPIClassRP2040 * mySPI;
 
-  #else
+#else
 
   SPIClass    * mySPI;
 
-  #endif
+#endif
 
   SPISettings _spi_settings;
 
-  #if defined(ESP32)
+#if defined(ESP32)
 
   bool     _useHSPI = true;
 
-  #endif
+#endif
 };
 
 
@@ -307,4 +306,7 @@ public:
 };
 
 #endif
+
+
+//  -- END OF FILE --
 
