@@ -108,7 +108,7 @@ protected:
   uint16_t _maxValue;             //  Maximum value of a given Chip
   uint16_t _value[2];             //  Current value  (cache for performance)
   uint8_t  _gain;                 //  Programmable Gain Amplifier variable
-  bool     _buffered = false      //  Buffer for the Reference Voltage of the MCP49XX Series Chips
+  bool     _buffered = false;     //  Buffer for the Reference Voltage of the MCP49XX Series Chips
   bool     _active   = true;      //  Indicates shutDown mode.
 
   void     transfer(uint16_t data);
