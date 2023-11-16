@@ -47,24 +47,24 @@ void MCP_DAC::begin(uint8_t select)
 
   if (_hwSPI)
   {
-    #if defined(ESP32)
-    if (_useHSPI)      //  HSPI
-    {
-      mySPI = new SPIClass(HSPI);
-      mySPI->end();
-      mySPI->begin(14, 12, 13, select);   //  CLK=14  MISO=12  MOSI=13
-    }
-    else               //  VSPI
-    {
-      mySPI = new SPIClass(VSPI);
-      mySPI->end();
-      mySPI->begin(18, 19, 23, select);   //  CLK=18  MISO=19  MOSI=23
-    }
+    // #if defined(ESP32)
+    // if (_useHSPI)      //  HSPI
+    // {
+      // mySPI = new SPIClass(HSPI);
+      // mySPI->end();
+      // mySPI->begin(14, 12, 13, select);   //  CLK=14  MISO=12  MOSI=13
+    // }
+    // else               //  VSPI
+    // {
+      // mySPI = new SPIClass(VSPI);
+      // mySPI->end();
+      // mySPI->begin(18, 19, 23, select);   //  CLK=18  MISO=19  MOSI=23
+    // }
 
-    #else              //  generic hardware SPI
+    // #else              //  generic hardware SPI
     mySPI->end();
     mySPI->begin();
-    #endif
+    // #endif
   }
   else                 //  software SPI
   {
@@ -88,6 +88,7 @@ uint16_t MCP_DAC::maxValue()
 }
 
 
+/*
 #if defined(ESP32) or defined(ARDUINO_ARCH_RP2040)
 void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)
 {
@@ -114,7 +115,7 @@ void MCP_DAC::setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t selec
   #endif
 }
 #endif
-
+*/
 
 bool MCP_DAC::setGain(uint8_t gain)
 {
@@ -265,7 +266,7 @@ bool MCP_DAC::usesHWSPI()
   return _hwSPI;
 }
 
-
+/*
 #if defined(ESP32)
 
 void MCP_DAC::selectHSPI()
@@ -292,7 +293,7 @@ bool MCP_DAC::usesVSPI()
 }
 
 #endif
-
+*/
 
 
 //////////////////////////////////////////////////////////////////

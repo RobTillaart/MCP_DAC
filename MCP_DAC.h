@@ -78,7 +78,7 @@ public:
   void     reset();
   bool     usesHWSPI();
 
-
+/*
 #if defined(ESP32)                    // ESP32 specific
 
   void     selectHSPI();
@@ -95,7 +95,7 @@ public:
   void     setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select);
 
 #endif
-
+*/
 
 protected:
   uint8_t  _dataOut;              //  Data out Pin (MOSI)
@@ -127,11 +127,11 @@ protected:
 
   SPISettings _spi_settings;
 
-#if defined(ESP32)
+// #if defined(ESP32)
 
-  bool     _useHSPI = true;
+  // bool     _useHSPI = true;
 
-#endif
+// #endif
 };
 
 
