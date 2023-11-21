@@ -49,8 +49,9 @@ which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 #### Constructor
 
-- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040.
-- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255, SPIClass \*mySPI = &SPI)** Constructor base class.
+- **MCP_DAC(SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040, hardware SPI.
+- **MCP_DAC(SPIClass \*mySPI = &SPI)** Constructor base class other platforms, hardware SPI.
+- **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255)** Constructor base class, software SPI.
   Other devices just use their name as class object e.g. MCP4801 with same parameters.
 - **begin(uint8_t select)** defines the select pin.
 The select pin is used for device selection in case of multiple SPI devices.
@@ -66,7 +67,7 @@ This relates to the number of bits, see table above.
 - **uint8_t getGain()** returns gain set, default 1.
 
 The analog output cannot go beyond the supply voltage.
-So if Vref is connected to 5V, gain=2 will not output 10 Volts.
+So if Vref is connected to 5V, gain = 2 will not output 10 Volts.
 
 
 #### Write
@@ -137,42 +138,13 @@ The default mode == false == unbuffered.
 
 ## ESP32 specific
 
-#### SPI port selection
-
-This functionality is new in 0.1.2 and it is expected that the interface will change
-in the future.
-
-- **void selectHSPI()** in case hardware SPI, the ESP32 has two options HSPI and VSPI.
-- **void selectVSPI()** see above.
-- **bool usesHSPI()** returns true if HSPI is used.
-- **bool usesVSPI()** returns true if VSPI is used.
-
-The **selectVSPI()** or the **selectHSPI()** needs to be called
-BEFORE the **begin()** function.
-
-
-#### Experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of ESP32 for hardware SPI. 
-Needs to be called AFTER the **begin()** function.
-
-```cpp
-void setup()
-{
-  MCP.selectVSPI();
-  MCP.begin(15);
-  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
-}
-```
-
-This interface can change in the future as the **select** pin is known
-in the code.
+Several functions removed in 0.3.0 as they were too processor specific,
+and prevented support for the ESP32-S3.
 
 
 #### ESP32 connections to MCP4922 (example)
 
-ESP32 has **four** SPI peripherals from which two can be used.
+ESP32 (first series) has **four** SPI peripherals from which two can be used.
 
 SPI0 and SPI1 are used to access flash memory. 
 SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
@@ -188,6 +160,22 @@ SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
 By using different **SELECT** pins multiple DAC's can be controlled over
 one SPI bus.
 
+
+The ESP32-S3 introduces user access to FSPI (which is reused from flash memory).
+Depending on ESP32 series e.g. HSPI is different, see code snippet below.
+
+```cpp
+#if CONFIG_IDF_TARGET_ESP32C3 || CONFIG_IDF_TARGET_ESP32S3
+#define FSPI  0
+#define HSPI  1  
+#else  
+#define FSPI  1 //SPI bus attached to the flash (can use the same data lines but different SS)  
+#define HSPI  2 //SPI bus normally mapped to pins 12 - 15, but can be matrixed to any pins  
+#if CONFIG_IDF_TARGET_ESP32  
+#define VSPI  3 //SPI bus normally attached to pins 5, 18, 19 and 23, but can be matrixed to any pins  
+#endif  
+#endif
+```
 
 ## RP2040 specific
 
@@ -252,19 +240,13 @@ See examples
 
 #### Should
 
+- **analogWrite()** is defined as a macro for the Arduino NANO ESP32.
+This results in a compile error, imho caused by pin remapping.
+
 #### Could
 
 - functional names for magic masks.
 - refactor the API (how).
-- minimize conditional in code if possible.
-  - would this work?
-```cpp
-#if defined(ARDUINO_ARCH_RP2040)
-  #define _mySPIClass SPIClassRP2040
-#else
-  #define _mySPIClass SPIClass
-#endif
-```
 
 
 #### Wont

@@ -34,12 +34,12 @@ public:
   //       SOFTWARE SPI
   MCP_DAC(uint8_t dataOut, uint8_t clock);
 
-  //       both HW and SW SPI. 
+  //       both HW and SW SPI.
   void     begin(uint8_t select);
 
   //       returns 0 or 1
   uint8_t  channels();
-  //       returns 255 (=8 bit) or 1023 (=10 bit) or 4095 (=12 bit)
+  //       returns 255 (8 bit), 1023 (10 bit) or 4095 (12 bit)
   uint16_t maxValue();
 
   //       gain = 1 or 2
@@ -78,7 +78,7 @@ public:
   void     setBufferedMode(bool mode = false);
   bool     getBufferedMode();
 
-  // debugging
+  //       debugging
   void     reset();
   bool     usesHWSPI();
 
