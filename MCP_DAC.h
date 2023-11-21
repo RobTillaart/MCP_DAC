@@ -15,7 +15,7 @@
 #define MCP_DAC_LIB_VERSION       (F("0.3.0"))
 
 #if defined(ARDUINO_ARCH_RP2040)
-#define __SPI_CLASS__   SPIClassRP204
+#define __SPI_CLASS__   SPIClassRP2040
 #else
 #define __SPI_CLASS__   SPIClass
 #endif
