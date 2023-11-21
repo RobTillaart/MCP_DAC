@@ -14,6 +14,12 @@
 
 #define MCP_DAC_LIB_VERSION       (F("0.3.0"))
 
+#if defined(ARDUINO_ARCH_RP2040)
+#define __SPI_CLASS__   SPIClassRP204
+#else
+#define __SPI_CLASS__   SPIClass
+#endif
+
 
 ///////////////////////////////////////////////////////////////
 //
@@ -23,12 +29,9 @@ class MCP_DAC
 {
 public:
 
-#if defined(ARDUINO_ARCH_RP2040)
-  MCP_DAC(SPIClassRP2040 *mySPI = &SPI);
-#else
-  MCP_DAC(SPIClass *mySPI = &SPI);
-#endif
-  //       SW_SPI
+  //       HARDWARE SPI
+  MCP_DAC(__SPI_CLASS__ *mySPI = &SPI);
+  //       SOFTWARE SPI
   MCP_DAC(uint8_t dataOut, uint8_t clock);
 
   //       both HW and SW SPI. 
@@ -98,15 +101,7 @@ protected:
   void     transfer(uint16_t data);
   uint8_t  swSPI_transfer(uint8_t d);
 
-#if defined(ARDUINO_ARCH_RP2040)
-
-  SPIClassRP2040 * mySPI;
-
-#else
-
-  SPIClass    * mySPI;
-
-#endif
+  __SPI_CLASS__ * mySPI;
 
   SPISettings _spi_settings;
 };
@@ -118,7 +113,6 @@ protected:
 //  DERIVED CLASSES
 //
 
-#if defined(ARDUINO_ARCH_RP2040)
 
 ///////////////////////////////////////////////////////////////
 //
@@ -128,42 +122,42 @@ protected:
 class MCP4801 : public MCP_DAC
 {
 public:
-  MCP4801(SPIClassRP2040 *inSPI = &SPI);
+  MCP4801(__SPI_CLASS__ *inSPI = &SPI);
   MCP4801(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4802 : public MCP_DAC
 {
 public:
-  MCP4802(SPIClassRP2040 *inSPI = &SPI);
+  MCP4802(__SPI_CLASS__ *inSPI = &SPI);
   MCP4802(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4811 : public MCP_DAC
 {
 public:
-  MCP4811(SPIClassRP2040 *inSPI = &SPI);
+  MCP4811(__SPI_CLASS__ *inSPI = &SPI);
   MCP4811(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4812 : public MCP_DAC
 {
 public:
-  MCP4812(SPIClassRP2040 *inSPI = &SPI);
+  MCP4812(__SPI_CLASS__ *inSPI = &SPI);
   MCP4812(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4821 : public MCP_DAC
 {
 public:
-  MCP4821(SPIClassRP2040 *inSPI = &SPI);
+  MCP4821(__SPI_CLASS__ *inSPI = &SPI);
   MCP4821(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4822 : public MCP_DAC
 {
 public:
-  MCP4822(SPIClassRP2040 *inSPI = &SPI);
+  MCP4822(__SPI_CLASS__ *inSPI = &SPI);
   MCP4822(uint8_t dataOut, uint8_t clock);
 };
 
@@ -175,143 +169,44 @@ public:
 class MCP4901 : public MCP_DAC
 {
 public:
-  MCP4901(SPIClassRP2040 *inSPI = &SPI);
+  MCP4901(__SPI_CLASS__ *inSPI = &SPI);
   MCP4901(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4902 : public MCP_DAC
 {
 public:
-  MCP4902(SPIClassRP2040 *inSPI = &SPI);
+  MCP4902(__SPI_CLASS__ *inSPI = &SPI);
   MCP4902(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4911 : public MCP_DAC
 {
 public:
-  MCP4911(SPIClassRP2040 *inSPI = &SPI);
+  MCP4911(__SPI_CLASS__ *inSPI = &SPI);
   MCP4911(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4912 : public MCP_DAC
 {
 public:
-  MCP4912(SPIClassRP2040 *inSPI = &SPI);
+  MCP4912(__SPI_CLASS__ *inSPI = &SPI);
   MCP4912(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4921 : public MCP_DAC
 {
 public:
-  MCP4921(SPIClassRP2040 *inSPI = &SPI);
+  MCP4921(__SPI_CLASS__ *inSPI = &SPI);
   MCP4921(uint8_t dataOut, uint8_t clock);
 };
 
 class MCP4922 : public MCP_DAC
 {
 public:
-  MCP4922(SPIClassRP2040 *inSPI = &SPI);
+  MCP4922(__SPI_CLASS__ *inSPI = &SPI);
   MCP4922(uint8_t dataOut, uint8_t clock);
 };
-
-
-#else
-
-///////////////////////////////////////////////////////////////
-//
-//  MCP4800 Series
-//
-
-class MCP4801 : public MCP_DAC
-{
-public:
-  MCP4801(SPIClass *inSPI = &SPI);
-  MCP4801(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4802 : public MCP_DAC
-{
-public:
-  MCP4802(SPIClass *inSPI = &SPI);
-  MCP4802(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4811 : public MCP_DAC
-{
-public:
-  MCP4811(SPIClass *inSPI = &SPI);
-  MCP4811(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4812 : public MCP_DAC
-{
-public:
-  MCP4812(SPIClass *inSPI = &SPI);
-  MCP4812(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4821 : public MCP_DAC
-{
-public:
-  MCP4821(SPIClass *inSPI = &SPI);
-  MCP4821(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4822 : public MCP_DAC
-{
-public:
-  MCP4822(SPIClass *inSPI = &SPI);
-  MCP4822(uint8_t dataOut, uint8_t clock);
-};
-
-///////////////////////////////////////////////////////////////
-//
-//  MCP4900 Series
-//
-
-class MCP4901 : public MCP_DAC
-{
-public:
-  MCP4901(SPIClass *inSPI = &SPI);
-  MCP4901(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4902 : public MCP_DAC
-{
-public:
-  MCP4902(SPIClass *inSPI = &SPI);
-  MCP4902(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4911 : public MCP_DAC
-{
-public:
-  MCP4911(SPIClass *inSPI = &SPI);
-  MCP4911(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4912 : public MCP_DAC
-{
-public:
-  MCP4912(SPIClass *inSPI = &SPI);
-  MCP4912(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4921 : public MCP_DAC
-{
-public:
-  MCP4921(SPIClass *inSPI = &SPI);
-  MCP4921(uint8_t dataOut, uint8_t clock);
-};
-
-class MCP4922 : public MCP_DAC
-{
-public:
-  MCP4922(SPIClass *inSPI = &SPI);
-  MCP4922(uint8_t dataOut, uint8_t clock);
-};
-
-#endif
 
 
 //  -- END OF FILE --
