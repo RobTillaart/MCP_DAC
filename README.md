@@ -41,6 +41,19 @@ The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 
+#### 0.3.0 braking change
+
+The version 0.3.0 has braking changes in the interface. The essence is that the
+dependency of Wire (ESP32 / RP2040) is removed from the library.
+This makes it possible to support the **ESP32-S3** and other processors in the future.
+Also it makes the library a bit simpler to maintain.
+
+
+#### Related
+
+- https://github.com/RobTillaart/MCP_ADC
+
+
 ## Interface
 
 ```cpp
@@ -157,8 +170,7 @@ SPI2 and SPI3 are "user" SPI controllers a.k.a. HSPI and VSPI.
 |    SDI     |  MOSI   = 13  |  MOSI   = 23  |
 |  not used  |  MISO   = 12  |  MISO   = 19  |
 
-By using different **SELECT** pins multiple DAC's can be controlled over
-one SPI bus.
+By using different **SELECT** pins multiple DAC's can be controlled over one SPI bus.
 
 
 The ESP32-S3 introduces user access to FSPI (which is reused from flash memory).
@@ -181,32 +193,10 @@ Depending on ESP32 series e.g. HSPI is different, see code snippet below.
 
 #### SPI port selection
 
-The SPI Port selections happens in the constructor with e.g. &SPI or &SPI1. 
-For the pin swap, you need the call the experimental feature **void setGPIOpins**. 
-In the constructor you need to call the parameter dataOut and clock both 
-with 255 (0xff) or otherwise it will use SoftSPI. 
+The SPI Port selections happens in the hardware constructor with e.g. &SPI, &SPI1 etc.
+In pre-0.3.0 an experimental feature **void setGPIOpins** was supported to adjust the
+hardware pins however this should now be handled by the user outside the library.
 
-
-#### Experimental
-
-- **void setGPIOpins(uint8_t clk, uint8_t miso, uint8_t mosi, uint8_t select)** 
-overrule GPIO pins of RP2040 for different SPI pins. 
-Needs to be called AFTER the **begin()** function. 
-Selected pins must match the RP2040 pinout!
-
-Warning! This command changes the Pins of the bus not only of a specific device, 
-but all devices, that are connected on that bus!
-
-
-```cpp
-MCP4822 MCP(255, 255, &SPI1)
-
-void setup()
-{
-  MCP.setGPIOpins(CLK, MISO, MOSI, SELECT);  // SELECT should match the param of begin()
-  MCP.begin(17);
-}
-```
 
 #### Pico connections to MCP4922 (example)
 
@@ -222,8 +212,7 @@ SPI (SPI0) and SPI1 can both be used to connect devices.
 |  SDI     |  MOSI   = 19  |  MOSI   = 15  |
 | not used |  MISO   = 16  |  MISO   = 12  |
 
-By using different **SELECT** pins multiple DAC's can be controlled over
-one SPI bus.
+By using different **SELECT** pins multiple DAC's can be controlled over one SPI bus.
 
 
 ## Operation
@@ -247,7 +236,6 @@ This results in a compile error, imho caused by pin remapping.
 
 - functional names for magic masks.
 - refactor the API (how).
-
 
 #### Wont
 

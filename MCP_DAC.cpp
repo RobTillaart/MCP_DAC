@@ -10,7 +10,7 @@
 #include "MCP_DAC.h"
 
 
-#if defined (ARDUINO_ARCH_RP2040)
+//  HW SPI
 MCP_DAC::MCP_DAC(__SPI_CLASS__ *inSPI)
 {
   mySPI     = inSPI;
@@ -22,19 +22,6 @@ MCP_DAC::MCP_DAC(__SPI_CLASS__ *inSPI)
   _maxValue = 255;
   reset();
 }
-#else
-MCP_DAC::MCP_DAC(SPIClass *inSPI)
-{
-  mySPI     = inSPI;
-  _dataOut  = 255;
-  _clock    = 255;
-  _select   = 0;
-  _hwSPI    = true;
-  _channels = 1;
-  _maxValue = 255;
-  reset();
-}
-#endif
 
 
 //  SW SPI

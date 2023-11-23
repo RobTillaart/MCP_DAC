@@ -46,6 +46,7 @@ public:
   bool     setGain(uint8_t gain = 1);
   uint8_t  getGain();
 
+  //       analogWrite has a known conflict with the Arduino NANO ESP32.
   bool     analogWrite(uint16_t value, uint8_t channel = 0);
   uint16_t lastValue(uint8_t channel = 0);
   void     fastWriteA(uint16_t value);
