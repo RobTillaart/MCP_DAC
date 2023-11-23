@@ -17,8 +17,9 @@ Arduino library for Microchip SPI DAC's:  8, 10, 12 bits, 1, 2 channel.
 ## Description
 
 The MCP_DAC is a library for DAC's from Microchip in the MCP48xx en MCP49xx series.
-The library is experimental as it is not tested with all different devices.
-Please post an issue if there are problems.
+The library is not tested with all different devices however stable.
+
+Please post an issue if there are problems with a specific device.
 
 
 |  Type   | Channels | Bits | MaxValue | Voltage reference |
@@ -41,9 +42,9 @@ The output voltage of the MCP_DAC depends on the voltage supplied,
 which is in the range of 2.7V .. 5.5V. Check datasheet for the details.
 
 
-#### 0.3.0 braking change
+#### 0.3.0 breaking change
 
-The version 0.3.0 has braking changes in the interface. The essence is that the
+The version 0.3.0 has breaking changes in the interface. The essence is that the
 dependency of Wire (ESP32 / RP2040) is removed from the library.
 This makes it possible to support the **ESP32-S3** and other processors in the future.
 Also it makes the library a bit simpler to maintain.
@@ -65,7 +66,7 @@ Also it makes the library a bit simpler to maintain.
 - **MCP_DAC(SPIClassRP2040 \*mySPI = &SPI)** Constructor base class for RP2040, hardware SPI.
 - **MCP_DAC(SPIClass \*mySPI = &SPI)** Constructor base class other platforms, hardware SPI.
 - **MCP_DAC(uint8_t dataOut = 255, uint8_t clock = 255)** Constructor base class, software SPI.
-  Other devices just use their name as class object e.g. MCP4801 with same parameters.
+Other devices just use their name as class object e.g. **MCP4801()** with same parameters.
 - **begin(uint8_t select)** defines the select pin.
 The select pin is used for device selection in case of multiple SPI devices.
 - **uint8_t channels()** returns the number of channels, 1 or 2.
@@ -79,7 +80,7 @@ This relates to the number of bits, see table above.
 - **bool setGain(uint8_t gain = 1)** gain is 1 (default) or 2.
 - **uint8_t getGain()** returns gain set, default 1.
 
-The analog output cannot go beyond the supply voltage.
+The analog output cannot go beyond the supply voltage.  
 So if Vref is connected to 5V, gain = 2 will not output 10 Volts.
 
 
@@ -229,8 +230,8 @@ See examples
 
 #### Should
 
-- **analogWrite()** is defined as a macro for the Arduino NANO ESP32.
-This results in a compile error, imho caused by pin remapping.
+- **analogWrite()** is defined as a macro in io_pin_remap.h for the Arduino NANO ESP32.
+  - This gives a compile error. No solution yet (See #24)
 
 #### Could
 
